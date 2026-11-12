@@ -1,0 +1,31 @@
+# Local TeasLeisure profile. Keep credentials in environment variables, not in source control.
+server:
+  port: 8080
+tl:
+  messaging:
+    send-limit: ${TL_MESSAGE_SEND_LIMIT:${TEAYU_MESSAGE_SEND_LIMIT:12}}
+    send-window-seconds: ${TL_MESSAGE_SEND_WINDOW_SECONDS:${TEAYU_MESSAGE_SEND_WINDOW_SECONDS:60}}
+    report-limit: ${TL_MESSAGE_REPORT_LIMIT:${TEAYU_MESSAGE_REPORT_LIMIT:5}}
+    report-window-seconds: ${TL_MESSAGE_REPORT_WINDOW_SECONDS:${TEAYU_MESSAGE_REPORT_WINDOW_SECONDS:3600}}
+spring:
+  datasource:
+    url: ${TL_DB_URL:${TEAYU_DB_URL:jdbc:mysql://127.0.0.1:3306/tl?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}}
+    username: ${TL_DB_USER:${TEAYU_DB_USER:tl}}
+    password: ${TL_DB_PASSWORD:${TEAYU_DB_PASSWORD}}
+  redis:
+    host: ${TL_REDIS_HOST:${TEAYU_REDIS_HOST:127.0.0.1}}
+    port: ${TL_REDIS_PORT:${TEAYU_REDIS_PORT:6379}}
+    password: ${TL_REDIS_PASSWORD:${TEAYU_REDIS_PASSWORD:}}
+    database: ${TL_REDIS_DATABASE:${TEAYU_REDIS_DATABASE:10}}
+crmeb:
+  imagePath: ${TL_IMAGE_PATH:${TEAYU_IMAGE_PATH:./crmebimage/}}
+  jwt-secret: ${TL_JWT_SECRET:${CRMEB_JWT_SECRET}}
+  install-statistics:
+    enabled: false
+  druid:
+    monitor:
+      enabled: ${TL_DRUID_MONITOR_ENABLED:${TEAYU_DRUID_MONITOR_ENABLED:false}}
+      username: ${TL_DRUID_MONITOR_USERNAME:${TEAYU_DRUID_MONITOR_USERNAME:}}
+      password: ${TL_DRUID_MONITOR_PASSWORD:${TEAYU_DRUID_MONITOR_PASSWORD:}}
+      allow: ${TL_DRUID_MONITOR_ALLOW:${TEAYU_DRUID_MONITOR_ALLOW:127.0.0.1,::1}}
+debug: false

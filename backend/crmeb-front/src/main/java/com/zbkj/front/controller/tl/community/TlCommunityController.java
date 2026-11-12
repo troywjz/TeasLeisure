@@ -1,0 +1,16 @@
+package com.zbkj.front.controller.tl.community;
+import com.github.pagehelper.PageInfo; import com.zbkj.common.model.tl.community.*; import com.zbkj.common.page.CommonPage; import com.zbkj.common.request.PageParamRequest; import com.zbkj.common.request.tl.community.*; import com.zbkj.common.response.tl.community.TlPostResponse; import com.zbkj.common.response.tl.community.TlCommentResponse; import com.zbkj.common.response.tl.community.TlMyPostResponse; import com.zbkj.common.response.tl.community.TlMyCommentResponse; import com.zbkj.common.result.CommonResult; import com.zbkj.service.service.tl.community.TlCommunityService; import io.swagger.v3.oas.annotations.tags.Tag; import io.swagger.v3.oas.annotations.Operation; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.validation.annotation.Validated; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("api/front/tl/community") @Tag(name ="茶余动态互动")
+public class TlCommunityController {
+ @Autowired private TlCommunityService service;
+ @GetMapping("/posts") @Operation(summary = "查看已审核动态") public CommonResult<CommonPage<TlPostResponse>> posts(@RequestParam(required=false) Long stallId,@RequestParam(required=false) Integer categoryId,@Validated PageParamRequest page){PageInfo<TlPostResponse> result=service.list(stallId,categoryId,page);return CommonResult.success(CommonPage.restPage(result));}
+ @GetMapping("/me/posts") @Operation(summary = "分页查看本人动态及审核状态") public CommonResult<CommonPage<TlMyPostResponse>> myPosts(@Validated PageParamRequest page){PageInfo<TlMyPostResponse> result=service.myPosts(page);return CommonResult.success(CommonPage.restPage(result));}
+ @GetMapping("/me/comments") @Operation(summary = "分页查看本人评论及审核状态") public CommonResult<CommonPage<TlMyCommentResponse>> myComments(@Validated PageParamRequest page){PageInfo<TlMyCommentResponse> result=service.myComments(page);return CommonResult.success(CommonPage.restPage(result));}
+ @GetMapping("/posts/{id}") @Operation(summary = "查看已审核动态详情") public CommonResult<TlPostResponse> postDetail(@PathVariable Long id){TlPostResponse result=service.detail(id);return result==null?CommonResult.failed("动态不存在或暂不可见"):CommonResult.success(result);}
+ @PostMapping("/posts") @Operation(summary = "发布动态，提交后进入审核") public CommonResult<Long> create(@RequestBody @Validated PostCreateRequest request){return CommonResult.success(service.create(request));}
+ @DeleteMapping("/posts/{id}") public CommonResult<String> deletePost(@PathVariable Long id){service.deletePost(id);return CommonResult.success();}
+ @GetMapping("/posts/{id}/comments") public CommonResult<CommonPage<TlCommentResponse>> comments(@PathVariable Long id,@Validated PageParamRequest page){return CommonResult.success(CommonPage.restPage(service.comments(id,page)));}
+ @PostMapping("/posts/{id}/comments") public CommonResult<Long> comment(@PathVariable Long id,@RequestBody @Validated CommentCreateRequest request){return CommonResult.success(service.comment(id,request));}
+ @DeleteMapping("/comments/{id}") public CommonResult<String> deleteComment(@PathVariable Long id){service.deleteComment(id);return CommonResult.success();}
+ @PostMapping("/posts/{id}/like") public CommonResult<String> like(@PathVariable Long id,@RequestParam boolean active){service.react(id,active);return CommonResult.success();}
+}

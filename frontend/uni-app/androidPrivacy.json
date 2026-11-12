@@ -1,0 +1,28 @@
+{
+    "version" : "1",
+    "prompt" : "template",
+    "title" : "服务协议和隐私政策",
+    "message" : "　　请阅读本应用的服务协议和隐私政策。当前仓库提供的是项目模板，运营方须在正式发布前补全并核对协议内容，确保说明与实际数据处理行为一致。<br/>　　<a href='static/legal/user-agreement.html'>《用户协议》</a>　<a href='static/legal/privacy-policy.html'>《隐私政策》</a>",
+    "buttonAccept" : "同意并接受",
+    "buttonRefuse" : "暂不同意",
+    "hrefLoader" : "system|default",
+    "second" : {
+        "title" : "确认提示",
+        "message" : "　　进入应用前，请阅读并确认<a href='static/legal/user-agreement.html'>《用户协议》</a>和<a href='static/legal/privacy-policy.html'>《隐私政策》</a>。",
+        "buttonAccept" : "同意并继续",
+        "buttonRefuse" : "退出应用"
+    },
+    "styles" : {
+        "backgroundColor" : "#fff",
+        "borderRadius" : "5px",
+        "title" : {
+            "color" : "#333"
+        },
+        "buttonAccept" : {
+            "color" : "#333"
+        },
+        "buttonRefuse" : {
+            "color" : "#333"
+        }
+    }
+}

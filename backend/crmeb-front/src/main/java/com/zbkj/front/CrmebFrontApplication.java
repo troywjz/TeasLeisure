@@ -1,0 +1,37 @@
+package com.zbkj.front;
+
+import com.anji.captcha.config.AjCaptchaAutoConfiguration;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * 程序主入口
+ * +----------------------------------------------------------------------
+ * | CRMEB [ CRMEB赋能开发者，助力企业发展 ]
+ * +----------------------------------------------------------------------
+ * | Copyright (c) 2016~2024 https://www.crmeb.com All rights reserved.
+ * +----------------------------------------------------------------------
+ * | Licensed CRMEB并不是自由软件，未经许可不能去掉CRMEB相关版权
+ * +----------------------------------------------------------------------
+ * | Author: CRMEB Team <admin@crmeb.com>
+ * +----------------------------------------------------------------------
+ */
+@EnableAsync //开启异步调用
+@Configuration
+@EnableTransactionManagement
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //去掉数据源
+@ComponentScan(basePackages = {"com.zbkj", "com.zbkj.front"})
+@MapperScan(basePackages = {"com.zbkj.**.dao"})
+@Import(AjCaptchaAutoConfiguration.class)
+public class CrmebFrontApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CrmebFrontApplication.class, args);
+    }
+}

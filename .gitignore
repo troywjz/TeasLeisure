@@ -1,0 +1,24 @@
+.idea/
+.claude/
+frontend/uni-app/unpackage
+Crmeb-2022-01-04.log
+crmeb_front_log
+backend/LOG_HOME_IS_UNDEFINED
+*.
+*.
+.DS_Store
+
+# Local development/runtime artifacts
+.tools/
+.env
+.env.*
+!.env.example
+!.env.production.example
+crmeb_admin_log/
+crmeb_front_log/
+hs_err_pid*.log
+replay_pid*.log
+*.hprof
+**/target/
+**/node_modules/
+frontend/uni-app/dist/
