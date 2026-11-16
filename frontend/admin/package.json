@@ -98,7 +98,9 @@
   "overrides": {
     "braces": "3.0.3",
     "decode-uri-component": "0.5.1",
+    "glob": "14.0.2",
     "micromatch": "4.0.8",
+    "minimatch": "11.0.1",
     "svg-baker": {
       "micromatch": "4.0.8",
       "postcss": "8.5.23"
