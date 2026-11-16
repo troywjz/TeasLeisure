@@ -66,11 +66,11 @@ public class WechatCallbackController {
             @RequestParam(value = "nonce", required = false) String nonce,
             @RequestParam(value = "echostr") String echostr,
             HttpServletResponse response) throws IOException {
-        System.out.println("微信小程序回调测试成功");
-        PrintWriter writer = response.getWriter();
-        writer.print(echostr);
-        writer.flush();
-        writer.close();
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setHeader("X-Content-Type-Options", "nosniff");
+        try (PrintWriter writer = response.getWriter()) {
+            writer.print(echostr);
+        }
     }
 }
 

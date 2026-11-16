@@ -2,6 +2,8 @@ package com.zbkj.common.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.security.SecureRandom;
+
 /**
  * 通用工具类
  * +----------------------------------------------------------------------
@@ -15,6 +17,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * +----------------------------------------------------------------------
  */
 public class CommonUtil {
+    private static final SecureRandom PASSWORD_RANDOM = new SecureRandom();
 
     /**
      * 随机生成密码
@@ -24,7 +27,7 @@ public class CommonUtil {
      * 使用des方式加密
      */
     public static String createPwd(String phone) {
-        String password = "Abc" + CrmebUtil.randomCount(10000, 99999);
+        String password = "Abc" + (10000 + PASSWORD_RANDOM.nextInt(90000));
         return CrmebUtil.encryptPassword(password, phone);
     }
 

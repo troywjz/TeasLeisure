@@ -81,6 +81,9 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.Inet6Address;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -96,6 +99,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -3048,32 +3052,90 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeDao, Theme> implements Th
     private boolean downloadThemeRemoteImage(String imageUrl, File targetFile) {
         HttpURLConnection connection = null;
         try {
-            connection = (HttpURLConnection) new URL(imageUrl).openConnection();
-            connection.setInstanceFollowRedirects(true);
-            connection.setConnectTimeout(30000);
-            connection.setReadTimeout(30000);
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-            connection.setRequestProperty("Referer", getSiteUrl());
-            int responseCode = connection.getResponseCode();
-            if (responseCode < HttpURLConnection.HTTP_OK || responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
-                return false;
-            }
-            try (BufferedInputStream inputStream = new BufferedInputStream(connection.getInputStream());
-                 BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(targetFile))) {
-                byte[] buffer = new byte[8192];
-                int length;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
+            URI currentUri = validatePublicThemeImageUri(URI.create(imageUrl));
+            for (int redirectCount = 0; redirectCount <= 3; redirectCount++) {
+                connection = (HttpURLConnection) currentUri.toURL().openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(20000);
+                connection.setRequestProperty("User-Agent", "TeasLeisure-Theme-Importer/1.0");
+                connection.setRequestProperty("Referer", getSiteUrl());
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= HttpURLConnection.HTTP_MOVED_PERM && responseCode < 400) {
+                    String location = connection.getHeaderField("Location");
+                    connection.disconnect();
+                    connection = null;
+                    if (StrUtil.isBlank(location) || redirectCount == 3) return false;
+                    currentUri = validatePublicThemeImageUri(currentUri.resolve(location));
+                    continue;
                 }
+                if (responseCode < HttpURLConnection.HTTP_OK || responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
+                    return false;
+                }
+                long contentLength = connection.getContentLengthLong();
+                if (contentLength > 10L * 1024 * 1024) return false;
+                try (BufferedInputStream inputStream = new BufferedInputStream(connection.getInputStream());
+                     BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(targetFile))) {
+                    byte[] buffer = new byte[8192];
+                    long bytesWritten = 0;
+                    int length;
+                    while ((length = inputStream.read(buffer)) > 0) {
+                        bytesWritten += length;
+                        if (bytesWritten > 10L * 1024 * 1024) {
+                            outputStream.close();
+                            Files.deleteIfExists(targetFile.toPath());
+                            return false;
+                        }
+                        outputStream.write(buffer, 0, length);
+                    }
+                }
+                return true;
             }
-            return true;
+            return false;
         } catch (Exception e) {
+            try { Files.deleteIfExists(targetFile.toPath()); } catch (IOException ignored) { }
             return false;
         } finally {
-            if (connection != null) {
-                connection.disconnect();
+            if (connection != null) connection.disconnect();
+        }
+    }
+
+    private URI validatePublicThemeImageUri(URI uri) throws IOException {
+        URI normalized = uri.normalize();
+        String scheme = normalized.getScheme();
+        String host = normalized.getHost();
+        if (host == null || normalized.getUserInfo() != null ||
+                !("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) ||
+                (normalized.getPort() != -1 && normalized.getPort() != 80 && normalized.getPort() != 443)) {
+            throw new IOException("Invalid theme image URL");
+        }
+        String lowerHost = host.toLowerCase(Locale.ROOT);
+        if (lowerHost.equals("localhost") || lowerHost.endsWith(".localhost") ||
+                lowerHost.endsWith(".local") || lowerHost.endsWith(".internal")) {
+            throw new IOException("Private theme image hosts are not allowed");
+        }
+        for (InetAddress address : InetAddress.getAllByName(host)) {
+            if (isNonPublicAddress(address)) {
+                throw new IOException("Private theme image addresses are not allowed");
             }
         }
+        return normalized;
+    }
+
+    private boolean isNonPublicAddress(InetAddress address) {
+        if (address.isAnyLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress() ||
+                address.isSiteLocalAddress() || address.isMulticastAddress()) return true;
+        byte[] bytes = address.getAddress();
+        if (address instanceof Inet6Address) {
+            return (bytes[0] & 0xfe) == 0xfc;
+        }
+        int first = bytes[0] & 0xff;
+        int second = bytes[1] & 0xff;
+        int third = bytes[2] & 0xff;
+        return first == 0 || first == 100 && second >= 64 && second <= 127 ||
+                first == 192 && (second == 0 && third == 0 || second == 0 && third == 2 || second == 168) ||
+                first == 198 && (second == 18 || second == 19 || second == 51 && third == 100) ||
+                first == 203 && second == 0 && third == 113 || first >= 224;
     }
 
     /**

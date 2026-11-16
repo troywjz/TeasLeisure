@@ -287,7 +287,7 @@ public class CallbackServiceImpl implements CallbackService {
             sb.append("<return_msg><![CDATA[OK]]></return_msg>");
         }catch (Exception e){
             sb.append("<return_code><![CDATA[FAIL]]></return_code>");
-            sb.append("<return_msg><![CDATA[").append(e.getMessage()).append("]]></return_msg>");
+            sb.append("<return_msg><![CDATA[处理失败]]></return_msg>");
             logger.error("wechat pay error : 业务异常==》" + e.getMessage());
         }
         sb.append("</xml>");

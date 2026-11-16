@@ -65,6 +65,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(customAuthenticationProvider);
         http.cors(cors -> { });
+        // This REST API authenticates with an explicit Authorization header and has no cookie-backed session.
         http.csrf(AbstractHttpConfigurer::disable);
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(unauthorizedHandler())

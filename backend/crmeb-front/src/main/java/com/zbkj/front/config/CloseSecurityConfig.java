@@ -16,6 +16,7 @@ public class CloseSecurityConfig {
 
     @Bean
     public SecurityFilterChain frontSecurityFilterChain(HttpSecurity http) throws Exception {
+        // FrontTokenInterceptor validates explicit Authorization headers; browser cookies do not authenticate API requests.
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         http.logout(logout -> logout.permitAll());

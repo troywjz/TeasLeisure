@@ -35,7 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -54,6 +57,7 @@ import java.util.List;
 public class UploadServiceImpl implements UploadService {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadServiceImpl.class);
+    private static final Pattern SAFE_UPLOAD_MODEL = Pattern.compile("[A-Za-z0-9_-]{1,64}");
 
     @Autowired
     private SystemConfigService systemConfigService;
@@ -171,6 +175,9 @@ public class UploadServiceImpl implements UploadService {
         if (ObjectUtil.isNull(multipartFile) || multipartFile.isEmpty()) {
             throw new CrmebException(CommonResultCode.VALIDATE_FAILED, "上载的文件对象不存在...");
         }
+        if (model == null || !SAFE_UPLOAD_MODEL.matcher(model).matches()) {
+            throw new CrmebException(CommonResultCode.VALIDATE_FAILED, "上传模块格式不正确");
+        }
         // 校验
         String fileName = multipartFile.getOriginalFilename();
         float fileSize = (float) multipartFile.getSize() / 1024 / 1024;
@@ -192,7 +199,12 @@ public class UploadServiceImpl implements UploadService {
         // 创建目标文件的名称，规则：  子目录/年/月/日.后缀名
         String webPath = type + modelPath + CrmebDateUtil.nowDate("yyyy/MM/dd") + "/";
         // 文件分隔符转化为当前系统的格式
-        String destPath = FilenameUtils.separatorsToSystem(rootPath + webPath) + newFileName;
+        Path imageRoot = Paths.get(rootPath).toAbsolutePath().normalize();
+        Path targetPath = imageRoot.resolve(webPath).resolve(newFileName).normalize();
+        if (!targetPath.startsWith(imageRoot)) {
+            throw new CrmebException(CommonResultCode.VALIDATE_FAILED, "上传目标路径不安全");
+        }
+        String destPath = targetPath.toString();
         // 创建文件
         File file = UploadUtil.createFile(destPath);
 
