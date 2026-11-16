@@ -33,7 +33,7 @@ Install Git for Windows, JDK 17, Maven 3.9+, Node.js 20+, MySQL 8.4, and Redis/V
 
 4. Run front/admin with the `tl-local` profile. Default API ports are front `8081` and admin `8080`.
 5. In `frontend/uni-app`, run `npm ci` and `npm run dev:h5`; use `npm run build:mp-weixin` for a WeChat Mini Program build.
-6. In `frontend/admin`, run `npm install` and `npm run dev`.
+6. In `frontend/admin`, run `npm ci` and `npm run dev`.
 
 Production builds require `VITE_TL_API_URL` with an HTTPS API origin. `VITE_TL_H5_URL` sets the H5 share origin.
 

@@ -70,7 +70,7 @@ npm install
 npm run dev
 ```
 
-`frontend/admin` currently has no lockfile, so use `npm install` there. The H5 project has a lockfile and uses `npm ci`.
+Both frontend projects include npm lockfiles and use `npm ci` for reproducible installs.
 
 ## Moving to another computer
 
