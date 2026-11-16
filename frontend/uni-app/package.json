@@ -51,6 +51,7 @@
     "path-to-regexp@^0.1.0": "0.1.13",
     "postcss": "8.5.23",
     "postcss-selector-parser": "6.1.5",
+    "phin": "3.7.1",
     "qs": "6.16.1",
     "source-map-js": "1.2.2",
     "ws": "8.21.0"
