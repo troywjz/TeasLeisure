@@ -230,7 +230,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] activityBorderStyleProducts = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] activityBorderStyleProducts = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 productList.forEach(product -> {
                     for (String activityBorderStyleProduct : activityBorderStyleProducts) {
                         if (activityBorderStyleProduct.equals(product.getId().toString())) {
@@ -253,7 +253,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
 //                if (activityStyle.getProducts().length() == 0) {
 //                    break;
 //                }
-//                String[] activityBorderStyleBands = StrUtil.split(activityStyle.getProducts(), ",");
+//                String[] activityBorderStyleBands = StrUtil.splitToArray(activityStyle.getProducts(), ",");
 //                productList.forEach(product -> {
 //                    if (StrUtil.isBlank(product.getActivityStyle())) {
 //                        for (String activityBorderStyleBand : activityBorderStyleBands) {
@@ -277,7 +277,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] platCategoryIds = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] platCategoryIds = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 productList.forEach(product -> {
                     if (StrUtil.isBlank(product.getActivityStyle())) {
                         for (String pcid : platCategoryIds) {
@@ -304,7 +304,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] merIds = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] merIds = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 productList.forEach(product -> {
                     if (StrUtil.isBlank(product.getActivityStyle())) {
                         for (String merid : merIds) {
@@ -344,7 +344,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] activityBorderStyleProducts = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] activityBorderStyleProducts = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 for (String activityBorderStyleProduct : activityBorderStyleProducts) {
                     if (activityBorderStyleProduct.equals(product.getId().toString())) {
 //                        product.setActivityStyle(activityStyle.getStyle());
@@ -359,7 +359,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
 //                if (activityStyle.getProducts().length() == 0) {
 //                    break;
 //                }
-//                String[] activityBorderStyleBands = StrUtil.split(activityStyle.getProducts(), ",");
+//                String[] activityBorderStyleBands = StrUtil.splitToArray(activityStyle.getProducts(), ",");
 //                for (String activityBorderStyleBand : activityBorderStyleBands) {
 //                    if (ObjectUtil.isNotEmpty(product.getBrandId()) && activityBorderStyleBand.equals(product.getBrandId().toString())) {
 ////                        product.setActivityStyle(activityStyle.getStyle());
@@ -374,7 +374,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] platCategoryIds = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] platCategoryIds = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 for (String pcid : platCategoryIds) {
                     if (pcid.equals(product.getCateId().toString())) {
 //                        product.setActivityStyle(activityStyle.getStyle());
@@ -389,7 +389,7 @@ public class ActivityStyleServiceImpl extends ServiceImpl<ActivityStyleDao, Acti
                 if (activityStyle.getProducts().length() == 0) {
                     break;
                 }
-                String[] merIds = StrUtil.split(activityStyle.getProducts(), ",");
+                String[] merIds = StrUtil.splitToArray(activityStyle.getProducts(), ",");
                 for (String merid : merIds) {
                     if (merid.equals(product.getMerId().toString())) {
 //                        product.setActivityStyle(activityStyle.getStyle());

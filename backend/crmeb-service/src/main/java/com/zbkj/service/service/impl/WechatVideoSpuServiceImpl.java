@@ -111,7 +111,7 @@ public class WechatVideoSpuServiceImpl implements WechatVideoSpuService {
      * @return 商品添加Map
      */
     private Map<String, Object> assembleSpuAddMap(ShopSpuAddVo shopSpuVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("out_product_id", shopSpuVo.getOutProductId());
         map.put("title", shopSpuVo.getTitle());
         map.put("path", shopSpuVo.getPath());
@@ -120,13 +120,13 @@ public class WechatVideoSpuServiceImpl implements WechatVideoSpuService {
             map.put("qualification_pics", shopSpuVo.getQualificationPics());
         }
         if (ObjectUtil.isNotNull(shopSpuVo.getDescInfo())) {
-            Map<String, String> infoMap = CollUtil.newHashMap();
+            Map<String, String> infoMap = new java.util.HashMap<>();
             infoMap.put("desc", shopSpuVo.getDescInfo().getDesc());
         }
         map.put("third_cat_id", shopSpuVo.getThirdCatId());
         map.put("brand_id", shopSpuVo.getBrandId());
         List<Map<String, Object>> skuMapLsit = shopSpuVo.getSkus().stream().map(sku -> {
-            Map<String, Object> skuMap = CollUtil.newHashMap();
+            Map<String, Object> skuMap = new java.util.HashMap<>();
             skuMap.put("out_product_id", sku.getOutProductId());
             skuMap.put("out_sku_id", sku.getOutSkuId());
             skuMap.put("thumb_img", sku.getThumbImg());
@@ -134,7 +134,7 @@ public class WechatVideoSpuServiceImpl implements WechatVideoSpuService {
             skuMap.put("market_price", sku.getMarketPrice());
             skuMap.put("stock_num", sku.getStockNum());
             List<Map<String, String>> attrMapList = sku.getSkuAttrs().stream().map(attr -> {
-                Map<String, String> attrMap = CollUtil.newHashMap();
+                Map<String, String> attrMap = new java.util.HashMap<>();
                 attrMap.put("attr_key", attr.getAttrKey());
                 attrMap.put("attr_value", attr.getAttrValue());
                 return attrMap;

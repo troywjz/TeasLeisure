@@ -86,7 +86,7 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
     }
 
     private Map<String, Object> assembleOrderAddMap(ShopOrderAddVo shopOrderAddVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("create_time", shopOrderAddVo.getCreateTime());
         map.put("out_order_id", shopOrderAddVo.getOutOrderId());
         map.put("openid", shopOrderAddVo.getOpenid());
@@ -94,11 +94,11 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
         map.put("scene", shopOrderAddVo.getScene());
         // 订单详情
         ShopOrderDetailAddVo orderDetail = shopOrderAddVo.getOrderDetail();
-        Map<String, Object> detailMap = CollUtil.newHashMap();
+        Map<String, Object> detailMap = new java.util.HashMap<>();
         // ——商品详情数组
         List<ShopOrderProductInfoAddVo> productInfos = orderDetail.getProductInfos();
         List<Map<String, Object>> proInfoMapList = productInfos.stream().map(productInfo -> {
-            Map<String, Object> proInfoMap = CollUtil.newHashMap();
+            Map<String, Object> proInfoMap = new java.util.HashMap<>();
             proInfoMap.put("out_product_id", productInfo.getOutProductId());
             proInfoMap.put("out_sku_id", productInfo.getOutSkuId());
             proInfoMap.put("product_cnt", productInfo.getProductCnt());
@@ -111,7 +111,7 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
         detailMap.put("product_infos", proInfoMapList);
         // ——支付详情
         ShopOrderPayInfoAddVo payInfo = orderDetail.getPayInfo();
-        Map<String, Object> payInfoMap = CollUtil.newHashMap();
+        Map<String, Object> payInfoMap = new java.util.HashMap<>();
         payInfoMap.put("pay_method", payInfo.getPayMethod());
         payInfoMap.put("pay_method_type", payInfo.getPayMethodType());
         payInfoMap.put("prepay_id", payInfo.getPrepayId());
@@ -119,7 +119,7 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
         detailMap.put("pay_info", payInfoMap);
         // ——价格详情
         ShopOrderPriceInfoVo priceInfo = orderDetail.getPriceInfo();
-        Map<String, Object> priceInfoMap = CollUtil.newHashMap();
+        Map<String, Object> priceInfoMap = new java.util.HashMap<>();
         priceInfoMap.put("order_price", priceInfo.getOrderPrice());
         priceInfoMap.put("freight", priceInfo.getFreight());
         if (ObjectUtil.isNotNull(priceInfo.getDiscountedPrice()) && priceInfo.getDiscountedPrice() > 0) {
@@ -130,13 +130,13 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
 
         // 交付详情
         ShopOrderDeliveryDetailAddVo deliveryDetail = shopOrderAddVo.getDeliveryDetail();
-        Map<String, Object> deliveryMap = CollUtil.newHashMap();
+        Map<String, Object> deliveryMap = new java.util.HashMap<>();
         deliveryMap.put("delivery_type", deliveryDetail.getDeliveryType());
         map.put("delivery_detail", deliveryMap);
 
         // 地址详情
         ShopOrderAddressInfoAddVo addressInfo = shopOrderAddVo.getAddressInfo();
-        Map<String, Object> addressMap = CollUtil.newHashMap();
+        Map<String, Object> addressMap = new java.util.HashMap<>();
         addressMap.put("receiver_name", addressInfo.getReceiverName());
         addressMap.put("detailed_address", addressInfo.getDetailedAddress());
         addressMap.put("tel_number", addressInfo.getTelNumber());
@@ -166,7 +166,7 @@ public class WechatVideoOrderServiceImpl implements WechatVideoOrderService {
     }
 
     private Map<String, Object> assembleOrderPayMap(ShopOrderPayVo shopOrderPayVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (ObjectUtil.isNotNull(shopOrderPayVo.getOrderId())) {
             map.put("order_id", shopOrderPayVo.getOrderId());
         }

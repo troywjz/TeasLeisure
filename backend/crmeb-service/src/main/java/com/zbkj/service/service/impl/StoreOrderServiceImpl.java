@@ -183,7 +183,7 @@ public class StoreOrderServiceImpl extends ServiceImpl<StoreOrderDao, StoreOrder
         //}
         //queryWrapper.orderByDesc("id");
         //List<StoreOrder> orderList = dao.selectList(queryWrapper);
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("status", request.getStatus());
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
@@ -1132,7 +1132,7 @@ public class StoreOrderServiceImpl extends ServiceImpl<StoreOrderDao, StoreOrder
      */
     @Override
     public Map<String, StoreOrder> getMapInOrderNo(List<String> orderNoList) {
-        Map<String, StoreOrder> map = CollUtil.newHashMap();
+        Map<String, StoreOrder> map = new java.util.HashMap<>();
         LambdaUpdateWrapper<StoreOrder> lqw = new LambdaUpdateWrapper<>();
         lqw.in(StoreOrder::getOrderId, orderNoList);
         List<StoreOrder> orderList = dao.selectList(lqw);
@@ -2253,7 +2253,7 @@ public class StoreOrderServiceImpl extends ServiceImpl<StoreOrderDao, StoreOrder
      * @return Integer
      */
     private Integer getCount(StoreOrderTabsNumRequest request, String status) {
-        HashMap<String, Object> map = CollUtil.newHashMap();
+        HashMap<String, Object> map = new java.util.HashMap<>();
         map.put("status", status);
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);

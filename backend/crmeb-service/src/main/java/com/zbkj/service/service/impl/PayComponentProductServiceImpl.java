@@ -182,7 +182,7 @@ public class PayComponentProductServiceImpl extends ServiceImpl<PayComponentProd
 //        productInfo.setComponentProductId(spuAddResponseVo.getProductId());
 //        productInfo.setIsDel(false);
 //
-//        Map<String, String> skuMap = CollUtil.newHashMap();
+//        Map<String, String> skuMap = new java.util.HashMap<>();
 //        spuAddResponseVo.getSkus().forEach(e -> {
 //            skuMap.put(e.getOutSkuId(), e.getSkuId());
 //        });
@@ -367,7 +367,7 @@ public class PayComponentProductServiceImpl extends ServiceImpl<PayComponentProd
         draftProduct.setUpdateTime(spuUpdateResponseVo.getUpdateTime());
         draftProduct.setEditStatus(2);
         // sku
-        Map<String, String> skuMap = CollUtil.newHashMap();
+        Map<String, String> skuMap = new java.util.HashMap<>();
         spuUpdateResponseVo.getSkus().forEach(e -> {
             skuMap.put(e.getOutSkuId(), e.getSkuId());
         });
@@ -511,7 +511,7 @@ public class PayComponentProductServiceImpl extends ServiceImpl<PayComponentProd
         productDetailResponse.setProductAttr(attrList);
 
         // 根据制式设置sku属性
-        HashMap<String, StoreProductAttrValueResponse> skuMap = CollUtil.newHashMap();
+        HashMap<String, StoreProductAttrValueResponse> skuMap = new java.util.HashMap<>();
         StoreProductAttrValue spavPram = new StoreProductAttrValue();
         spavPram.setProductId(id).setType(Constants.PRODUCT_TYPE_COMPONENT);
         List<StoreProductAttrValue> storeProductAttrValues = storeProductAttrValueService.getByEntity(spavPram);

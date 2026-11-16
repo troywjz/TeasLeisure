@@ -561,7 +561,7 @@ public class StoreCombinationServiceImpl extends ServiceImpl<StoreCombinationDao
         List<StoreProductAttr> attrList = storeProductAttrService.getListByProductIdAndType(comId, Constants.PRODUCT_TYPE_PINGTUAN);
         // 获取主商品规格属性
         List<StoreProductAttr> masterAttrList = storeProductAttrService.getListByProductIdAndType(storeProduct.getId(), Constants.PRODUCT_TYPE_NORMAL);
-        HashMap<String, List<StoreProductAttrOption>> optionMap = CollUtil.newHashMap();
+        HashMap<String, List<StoreProductAttrOption>> optionMap = new java.util.HashMap<>();
         masterAttrList.forEach(attr -> {
             List<StoreProductAttrOption> optionList = productAttrOptionService.findListByAttrId(attr.getId());
             optionMap.put(attr.getAttrName(), optionList);
@@ -573,7 +573,7 @@ public class StoreCombinationServiceImpl extends ServiceImpl<StoreCombinationDao
         detailResponse.setProductAttr(attrList);
 
         // 根据制式设置sku属性
-        HashMap<String, Object> skuMap = CollUtil.newHashMap();
+        HashMap<String, Object> skuMap = new java.util.HashMap<>();
         // 获取主商品sku
         List<StoreProductAttrValue> storeProductAttrValues = storeProductAttrValueService.getListByProductIdAndType(storeCombination.getProductId(), Constants.PRODUCT_TYPE_NORMAL);
         // 获取拼团商品sku
@@ -779,7 +779,7 @@ public class StoreCombinationServiceImpl extends ServiceImpl<StoreCombinationDao
 
         // 获取主商品规格属性
         List<StoreProductAttr> masterAttrList = storeProductAttrService.getListByProductIdAndType(storeCombination.getProductId(), Constants.PRODUCT_TYPE_NORMAL);
-        HashMap<String, List<StoreProductAttrOption>> optionMap = CollUtil.newHashMap();
+        HashMap<String, List<StoreProductAttrOption>> optionMap = new java.util.HashMap<>();
         masterAttrList.forEach(attr -> {
             List<StoreProductAttrOption> optionList = productAttrOptionService.findListByAttrId(attr.getId());
             optionMap.put(attr.getAttrName(), optionList);

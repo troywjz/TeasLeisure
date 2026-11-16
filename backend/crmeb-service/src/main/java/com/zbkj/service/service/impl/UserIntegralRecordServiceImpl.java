@@ -138,7 +138,7 @@ public class UserIntegralRecordServiceImpl extends ServiceImpl<UserIntegralRecor
     @Override
     public PageInfo<UserIntegralRecordResponse> findAdminList(AdminIntegralSearchRequest request) {
         Page<UserIntegralRecordResponse> page = PageHelper.startPage(request.getPage(), request.getLimit());
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());

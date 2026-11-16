@@ -841,7 +841,7 @@ public class StoreBargainServiceImpl extends ServiceImpl<StoreBargainDao, StoreB
         List<HashMap<String, Object>> mapList = bargainUserList.stream().map(e -> {
             // 获取用户昵称头像
             User user = userMap.get(e.getUid());
-            HashMap<String, Object> map = CollUtil.newHashMap();
+            HashMap<String, Object> map = new java.util.HashMap<>();
             map.put("nickName", user.getNickname());
             map.put("avatar", user.getAvatar());
             map.put("price", e.getBargainPriceMin());
@@ -862,7 +862,7 @@ public class StoreBargainServiceImpl extends ServiceImpl<StoreBargainDao, StoreB
         LambdaQueryWrapper<StoreBargain> lqw = new LambdaQueryWrapper<>();
         lqw.in(StoreBargain::getId, bargainIdList);
         List<StoreBargain> bargainList = dao.selectList(lqw);
-        HashMap<Integer, StoreBargain> map = CollUtil.newHashMap();
+        HashMap<Integer, StoreBargain> map = new java.util.HashMap<>();
         bargainList.forEach(e -> {
             map.put(e.getId(), e);
         });
@@ -879,7 +879,7 @@ public class StoreBargainServiceImpl extends ServiceImpl<StoreBargainDao, StoreB
         lqw.select(StoreBargain::getId, StoreBargain::getTitle);
         lqw.in(StoreBargain::getId, bargainIdList);
         List<StoreBargain> bargainList = dao.selectList(lqw);
-        HashMap<Integer, String> map = CollUtil.newHashMap();
+        HashMap<Integer, String> map = new java.util.HashMap<>();
         bargainList.forEach(e -> {
             map.put(e.getId(), e.getTitle());
         });

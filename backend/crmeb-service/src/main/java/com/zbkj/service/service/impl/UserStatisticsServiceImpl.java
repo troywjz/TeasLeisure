@@ -390,7 +390,7 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
         // 获取所有的用户id跟地址
         List<User> userList = userService.findIdAndAddresList();
         // 根据省份分割用户
-        Map<String, List<Integer>> areaMap = CollUtil.newHashMap();
+        Map<String, List<Integer>> areaMap = new java.util.HashMap<>();
         areaList.forEach(e -> {
             areaMap.put(e, CollUtil.newArrayList());
         });

@@ -107,7 +107,7 @@ public class UserRechargeServiceImpl extends ServiceImpl<UserRechargeDao, UserRe
         //}
         //lambdaQueryWrapper.orderByDesc(UserRecharge::getId);
         //List<UserRecharge> userRecharges = dao.selectList(lambdaQueryWrapper);
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());

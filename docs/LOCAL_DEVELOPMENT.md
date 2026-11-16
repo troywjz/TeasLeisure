@@ -58,6 +58,8 @@ npm run dev:h5
 npm run build:mp-weixin
 ```
 
+The current DCloud Vite plugin declares Vite `5.2.8` as an exact peer, while the repository pins the security-fixed Vite `6.4.5`; `frontend/uni-app/.npmrc` enables legacy peer resolution for this verified pairing. H5 and Mini Program builds both pass. Recheck this constraint when updating the DCloud suite.
+
 Set `VITE_TL_API_URL` for production builds. Its value must be an HTTPS API root URL; `VITE_TL_H5_URL` sets the share-link origin.
 
 For the Vue admin UI:

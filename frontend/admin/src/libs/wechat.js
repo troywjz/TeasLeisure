@@ -43,7 +43,7 @@ export default function wechat() {
     if (instance) return resolve(instance);
     getWechatConfig()
       .then(async (res) => {
-        const { default: WechatJSSDK } = await import('wechat-jssdk/dist/client.umd');
+        const { default: WechatJSSDK } = await import('@/vendor/wechat-jssdk-client.js');
         const _wx = WechatJSSDK(res);
         wechatObj = _wx;
         _wx
@@ -147,7 +147,7 @@ export function wechatEvevt(name, config) {
     };
     Object.assign(configDefault, config);
     getWechatConfig().then(async (res) => {
-      const { default: WechatJSSDK } = await import('wechat-jssdk/dist/client.umd');
+      const { default: WechatJSSDK } = await import('@/vendor/wechat-jssdk-client.js');
       const _wx = WechatJSSDK(res);
       _wx.initialize().then(() => {
         instance = _wx.getOriginalWx();
@@ -171,7 +171,7 @@ export function ready() {
       });
     } else {
       getWechatConfig().then(async (res) => {
-        const { default: WechatJSSDK } = await import('wechat-jssdk/dist/client.umd');
+        const { default: WechatJSSDK } = await import('@/vendor/wechat-jssdk-client.js');
         const _wx = WechatJSSDK(res);
         _wx.initialize().then(() => {
           instance = _wx.wx;

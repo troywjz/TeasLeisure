@@ -606,7 +606,7 @@ public class WechatNewServiceImpl implements WechatNewService {
     public WxRefundResponseVo payRefund(WxRefundVo wxRefundVo, String path) {
         String xmlStr = XmlUtil.objectToXml(wxRefundVo);
         String url = WeChatConstants.PAY_API_URL + WeChatConstants.PAY_REFUND_API_URI_WECHAT;
-        HashMap<String, Object> map = CollUtil.newHashMap();
+        HashMap<String, Object> map = new java.util.HashMap<>();
         String xml = "";
         try {
             xml = restTemplateUtil.postWXRefundXml(url, xmlStr, wxRefundVo.getMch_id(), path);

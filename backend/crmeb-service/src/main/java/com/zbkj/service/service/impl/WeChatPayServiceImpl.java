@@ -394,7 +394,7 @@ public class WeChatPayServiceImpl implements WeChatPayService {
      * @return
      */
     private Map<String, String> getWxChantQueryPayVo(String orderNo, String appId, String mchId, String signKey) {
-        Map<String, String> map = CollUtil.newHashMap();
+        Map<String, String> map = new java.util.HashMap<>();
         map.put("appid", appId);
         map.put("mch_id", mchId);
         map.put("out_trade_no", orderNo);

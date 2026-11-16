@@ -123,7 +123,7 @@ public class StoreProductReplyServiceImpl extends ServiceImpl<StoreProductReplyD
         //    lambdaQueryWrapper.between(StoreProductReply::getCreateTime, dateLimit.getStartTime(), dateLimit.getEndTime());
         //}
         //lambdaQueryWrapper.orderByDesc(StoreProductReply::getId);
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());

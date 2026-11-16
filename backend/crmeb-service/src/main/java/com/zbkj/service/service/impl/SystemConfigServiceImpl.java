@@ -245,7 +245,7 @@ public class SystemConfigServiceImpl extends ServiceImpl<SystemConfigDao, System
         lqw.eq(SystemConfig::getFormId, formId);
         List<SystemConfig> systemConfigList = dao.selectList(lqw);
         if (CollUtil.isEmpty(systemConfigList)) {
-            return CollUtil.newHashMap();
+            return new java.util.HashMap<>();
         }
         HashMap<String, String> map = new HashMap<>();
         for (SystemConfig systemConfig : systemConfigList) {

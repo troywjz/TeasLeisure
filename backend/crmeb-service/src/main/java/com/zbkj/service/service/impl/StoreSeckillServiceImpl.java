@@ -541,7 +541,7 @@ public class StoreSeckillServiceImpl extends ServiceImpl<StoreSeckillDao, StoreS
         List<StoreProductAttr> attrList = attrService.getListByProductIdAndType(skillId, Constants.PRODUCT_TYPE_SECKILL);
         // 获取主商品规格属性
         List<StoreProductAttr> masterAttrList = attrService.getListByProductIdAndType(storeProduct.getId(), Constants.PRODUCT_TYPE_NORMAL);
-        HashMap<String, List<StoreProductAttrOption>> optionMap = CollUtil.newHashMap();
+        HashMap<String, List<StoreProductAttrOption>> optionMap = new java.util.HashMap<>();
         masterAttrList.forEach(attr -> {
             List<StoreProductAttrOption> optionList = productAttrOptionService.findListByAttrId(attr.getId());
             optionMap.put(attr.getAttrName(), optionList);
@@ -553,7 +553,7 @@ public class StoreSeckillServiceImpl extends ServiceImpl<StoreSeckillDao, StoreS
         productDetailResponse.setProductAttr(attrList);
 
         // 根据制式设置sku属性
-        HashMap<String, Object> skuMap = CollUtil.newHashMap();
+        HashMap<String, Object> skuMap = new java.util.HashMap<>();
         // 获取主商品sku
         List<StoreProductAttrValue> storeProductAttrValues = storeProductAttrValueService.getListByProductIdAndType(storeSeckill.getProductId(), Constants.PRODUCT_TYPE_NORMAL);
         // 获取秒杀商品sku

@@ -89,7 +89,7 @@ public class StoreCouponUserServiceImpl extends ServiceImpl<StoreCouponUserDao, 
      */
     @Override
     public PageInfo<StoreCouponUserResponse> getList(StoreCouponUserSearchRequest request) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());
@@ -278,7 +278,7 @@ public class StoreCouponUserServiceImpl extends ServiceImpl<StoreCouponUserDao, 
         BigDecimal maxPrice = orderInfoVo.getProTotalFee();
 
         Date date = CrmebDateUtil.nowDateTime();
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("date", date);
         map.put("maxPrice", maxPrice);
         map.put("uid", userService.getUserIdException());

@@ -265,7 +265,7 @@ public class UserBrokerageRecordServiceImpl extends ServiceImpl<UserBrokerageRec
         queryWrapper.apply(StrUtil.format("left(update_time, 7) in ({})", ArrayUtil.strListToSqlJoin(monthList)));
         queryWrapper.groupBy("left(update_time, 7)");
         List<UserBrokerageRecord> list = dao.selectList(queryWrapper);
-        Map<String, Integer> map = CollUtil.newHashMap();
+        Map<String, Integer> map = new java.util.HashMap<>();
         if (CollUtil.isEmpty(list)) {
             return map;
         }
@@ -381,7 +381,7 @@ public class UserBrokerageRecordServiceImpl extends ServiceImpl<UserBrokerageRec
      */
     @Override
     public PageInfo<UserBrokerageRecord> getAdminList(BrokerageRecordRequest request) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());
@@ -460,7 +460,7 @@ public class UserBrokerageRecordServiceImpl extends ServiceImpl<UserBrokerageRec
             record.setStatus(BrokerageRecordConstants.BROKERAGE_RECORD_STATUS_FROZEN);
             record.setFrozenTime(freezeDay);
             // 计算解冻时间
-            long thawTime = DateUtil.current(false);
+            long thawTime = DateUtil.current();
             if (record.getFrozenTime() > 0) {
                 DateTime dateTime = DateUtil.offsetDay(new Date(), freezeDay);
                 thawTime = dateTime.getTime();

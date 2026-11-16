@@ -910,7 +910,7 @@ public class OrderPayServiceImpl implements OrderPayService {
                 model.setTotalAmount(total_amount);
                 model.setProductCode("QUICK_MSECURITY_PAY");
 
-//                HashMap<String, String> map = CollUtil.newHashMap();
+//                HashMap<String, String> map = new java.util.HashMap<>();
 //                map.put("type", Constants.SERVICE_PAY_TYPE_ORDER);
 //                String jsonString = JSONObject.toJSONString(map);
 //                String encode;
@@ -1335,7 +1335,7 @@ public class OrderPayServiceImpl implements OrderPayService {
             return;
         }
         List<StoreCouponUser> couponUserList = CollUtil.newArrayList();
-        Map<Integer, Boolean> couponMap = CollUtil.newHashMap();
+        Map<Integer, Boolean> couponMap = new java.util.HashMap<>();
         for (StoreOrderInfoOldVo order : orders) {
             List<StoreProductCoupon> couponsForGiveUser = storeProductCouponService.getListByProductId(order.getProductId());
             for (int i = 0; i < couponsForGiveUser.size();) {

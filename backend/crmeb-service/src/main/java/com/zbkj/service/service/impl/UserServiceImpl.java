@@ -149,7 +149,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     public PageInfo<UserResponse> getList(UserSearchRequest request) {
         Page<User> pageUser = PageHelper.startPage(request.getPage(), request.getLimit());
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
 
         if (request.getIsPromoter() != null) {
             map.put("isPromoter", request.getIsPromoter() ? 1 : 0);
@@ -946,7 +946,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      */
     @Override
     public PageInfo<User> getAdminSpreadPeopleList(RetailShopSearchRequest request) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         if (StrUtil.isNotBlank(request.getContent())) {
             ValidateFormUtil.validatorUserCommonSearch(request);
             String keywords = URLUtil.decode(request.getContent());
@@ -1272,7 +1272,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 //            return new PageInfo<>();
 //        }
 //        List<String> orderNoList = CollUtil.newArrayList();
-//        Map<String, StoreOrder> orderMap = CollUtil.newHashMap();
+//        Map<String, StoreOrder> orderMap = new java.util.HashMap<>();
 //        orderList.forEach(e -> {
 //            orderNoList.add(e.getOrderId());
 //            orderMap.put(e.getOrderId(), e);

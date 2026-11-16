@@ -79,13 +79,13 @@ public class WechatVideoDeliveryServiceImpl implements WechatVideoDeliveryServic
     }
 
     private Map<String, Object> assembleSendMap(DeliverySendVo deliverySendVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("out_order_id", deliverySendVo.getOutOrderId());
         map.put("openid", deliverySendVo.getOpenid());
         map.put("finish_all_delivery", deliverySendVo.getFinishSllDelivery());
         List<DeliveryInfoVo> deliveryList = deliverySendVo.getDeliveryList();
         List<Map<String, Object>> infoMapList = deliveryList.stream().map(e -> {
-            Map<String, Object> infoMap = CollUtil.newHashMap();
+            Map<String, Object> infoMap = new java.util.HashMap<>();
             infoMap.put("delivery_id", e.getDeliveryId());
             infoMap.put("waybill_id", e.getWaybillId());
             return infoMap;

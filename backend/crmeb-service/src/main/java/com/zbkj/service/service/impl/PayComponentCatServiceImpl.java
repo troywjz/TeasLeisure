@@ -141,7 +141,7 @@ public class PayComponentCatServiceImpl extends ServiceImpl<PayComponentCatDao, 
      */
     private List<FirstCatVo> assembleRedisData(List<PayComponentCat> catList) {
         // 第一级
-        HashMap<Integer, String> firstMap = CollUtil.newHashMap();
+        HashMap<Integer, String> firstMap = new java.util.HashMap<>();
         catList.forEach(e -> {
             if (!firstMap.containsKey(e.getFirstCatId())) {
                 firstMap.put(e.getFirstCatId(), e.getFirstCatName());
@@ -156,7 +156,7 @@ public class PayComponentCatServiceImpl extends ServiceImpl<PayComponentCatDao, 
         });
         // 第二级
         voList.forEach(e -> {
-            HashMap<Integer, String> secondMap = CollUtil.newHashMap();
+            HashMap<Integer, String> secondMap = new java.util.HashMap<>();
             catList.stream().filter(a -> a.getFirstCatId().equals(e.getFirstCatId())).forEach(cat -> {
                 if (!secondMap.containsKey(cat.getSecondCatId())) {
                     secondMap.put(cat.getSecondCatId(), cat.getSecondCatName());
@@ -195,7 +195,7 @@ public class PayComponentCatServiceImpl extends ServiceImpl<PayComponentCatDao, 
      */
     private List<CatItem> assembleRedisDataForFront(List<PayComponentCat> catList) {
         // 第一级
-        HashMap<Integer, String> firstMap = CollUtil.newHashMap();
+        HashMap<Integer, String> firstMap = new java.util.HashMap<>();
         catList.forEach(e -> {
             if (!firstMap.containsKey(e.getFirstCatId())) {
                 firstMap.put(e.getFirstCatId(), e.getFirstCatName());
@@ -207,7 +207,7 @@ public class PayComponentCatServiceImpl extends ServiceImpl<PayComponentCatDao, 
         });
         // 第二级
         catItem1s.forEach(e -> {
-            HashMap<Integer, String> secondMap = CollUtil.newHashMap();
+            HashMap<Integer, String> secondMap = new java.util.HashMap<>();
             catList.stream().filter(a -> a.getFirstCatId().equals(e.getValue())).forEach(cat -> {
                 if (!secondMap.containsKey(cat.getSecondCatId())) {
                     secondMap.put(cat.getSecondCatId(), cat.getSecondCatName());

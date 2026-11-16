@@ -573,7 +573,7 @@ public class StoreOrderTaskServiceImpl implements StoreOrderTaskService {
         //    // 佣金进入冻结期
         //    record.setStatus(BrokerageRecordConstants.BROKERAGE_RECORD_STATUS_FROZEN);
         //    // 计算解冻时间
-        //    Long thawTime = cn.hutool.core.date.DateUtil.current(false);
+        //    Long thawTime = cn.hutool.core.date.DateUtil.current();
         //    if (record.getFrozenTime() > 0) {
         //        DateTime dateTime = cn.hutool.core.date.DateUtil.offsetDay(new Date(), record.getFrozenTime());
         //        thawTime = dateTime.getTime();
@@ -590,7 +590,7 @@ public class StoreOrderTaskServiceImpl implements StoreOrderTaskService {
             // 积分进入冻结期
             record.setStatus(IntegralRecordConstants.INTEGRAL_RECORD_STATUS_FROZEN);
             // 计算解冻时间
-            Long thawTime = cn.hutool.core.date.DateUtil.current(false);
+            Long thawTime = cn.hutool.core.date.DateUtil.current();
             if (record.getFrozenTime() > 0) {
                 DateTime dateTime = cn.hutool.core.date.DateUtil.offsetDay(new Date(), record.getFrozenTime());
                 thawTime = dateTime.getTime();

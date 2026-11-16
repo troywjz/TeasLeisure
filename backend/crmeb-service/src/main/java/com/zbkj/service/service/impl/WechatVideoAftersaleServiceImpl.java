@@ -61,7 +61,7 @@ public class WechatVideoAftersaleServiceImpl implements WechatVideoAftersaleServ
      * 组装售后map
      */
     private Map<String, Object> assembleAfterSaleAddMap(ShopAftersaleAddVo shopAftersaleAddVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("out_order_id", shopAftersaleAddVo.getOutOrderId());
         map.put("out_aftersale_id", shopAftersaleAddVo.getOutAftersaleId());
         map.put("openid", shopAftersaleAddVo.getOpenid());
@@ -72,7 +72,7 @@ public class WechatVideoAftersaleServiceImpl implements WechatVideoAftersaleServ
         map.put("path", shopAftersaleAddVo.getPath());
         List<AftersaleProductInfoVo> productInfos = shopAftersaleAddVo.getProductInfos();
         List<Map<String, Object>> proMap = productInfos.stream().map(e -> {
-            Map<String, Object> proInfoMap = CollUtil.newHashMap();
+            Map<String, Object> proInfoMap = new java.util.HashMap<>();
             proInfoMap.put("out_product_id", e.getOutProductId());
             proInfoMap.put("out_sku_id", e.getOutSkuId());
             proInfoMap.put("product_cnt", e.getProductCnt());
@@ -131,7 +131,7 @@ public class WechatVideoAftersaleServiceImpl implements WechatVideoAftersaleServ
      * 组装更新售后mao
      */
     private Map<String, Object> assembleAfterSaleUpdateMap(ShopAftersaleUpdateVo shopAftersaleUpdateVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
         map.put("out_order_id", shopAftersaleUpdateVo.getOutOrderId());
         map.put("openid", shopAftersaleUpdateVo.getOpenid());
         map.put("out_aftersale_id", shopAftersaleUpdateVo.getOutAftersaleId());

@@ -84,9 +84,9 @@ public class WechatVideoBeforeServiceImpl implements WechatVideoBeforeService {
      * @return 商品品牌Map
      */
     private Map<String, Object> assembleAuditBrandMap(ShopAuditBrandRequestVo requestVo) {
-        Map<String, Object> map = CollUtil.newHashMap();
-        Map<String, Object> reqMap = CollUtil.newHashMap();
-        Map<String, Object> infoMap = CollUtil.newHashMap();
+        Map<String, Object> map = new java.util.HashMap<>();
+        Map<String, Object> reqMap = new java.util.HashMap<>();
+        Map<String, Object> infoMap = new java.util.HashMap<>();
         ShopAuditBrandRequestItemVo requestItemVo = requestVo.getAuditReq();
         ShopAuditBrandRequestItemDataVo brandInfo = requestItemVo.getBrandInfo();
         infoMap.put("brand_audit_type", brandInfo.getBrandAuditType());

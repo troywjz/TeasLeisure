@@ -50,7 +50,7 @@ public class ExcelController {
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     public CommonResult<HashMap<String, String>> export(@Validated StoreProductSearchRequest request) {
         String fileName = excelService.exportProduct(request);
-        HashMap<String, String> map = CollUtil.newHashMap();
+        HashMap<String, String> map = new java.util.HashMap<>();
         map.put("fileName", fileName);
         return CommonResult.success(map);
     }
@@ -64,7 +64,7 @@ public class ExcelController {
     @RequestMapping(value = "/bargain/product", method = RequestMethod.GET)
     public CommonResult<HashMap<String, String>> exportBargainProduct(@Validated StoreBargainSearchRequest request) {
         String fileName = excelService.exportBargainProduct(request);
-        HashMap<String, String> map = CollUtil.newHashMap();
+        HashMap<String, String> map = new java.util.HashMap<>();
         map.put("fileName", fileName);
         return CommonResult.success(map);
     }
@@ -78,7 +78,7 @@ public class ExcelController {
     @RequestMapping(value = "/combiantion/product", method = RequestMethod.GET)
     public CommonResult<HashMap<String, String>> exportCombinationProduct(@Validated StoreCombinationSearchRequest request) {
         String fileName = excelService.exportCombinationProduct(request);
-        HashMap<String, String> map = CollUtil.newHashMap();
+        HashMap<String, String> map = new java.util.HashMap<>();
         map.put("fileName", fileName);
         return CommonResult.success(map);
     }
@@ -92,7 +92,7 @@ public class ExcelController {
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public CommonResult<HashMap<String, String>> exportOrder(@Validated StoreOrderSearchRequest request){
         String fileName = excelService.exportOrder(request);
-        HashMap<String, String> map = CollUtil.newHashMap();
+        HashMap<String, String> map = new java.util.HashMap<>();
         map.put("fileName", fileName);
         return CommonResult.success(map);
     }

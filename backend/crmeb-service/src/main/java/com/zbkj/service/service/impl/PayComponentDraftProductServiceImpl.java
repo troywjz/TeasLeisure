@@ -190,7 +190,7 @@ public class PayComponentDraftProductServiceImpl extends ServiceImpl<PayComponen
         draftProduct.setEditStatus(2);
 
         // sku
-        Map<String, String> skuMap = CollUtil.newHashMap();
+        Map<String, String> skuMap = new java.util.HashMap<>();
         spuAddResponseVo.getSkus().forEach(e -> {
             skuMap.put(e.getOutSkuId(), e.getSkuId());
         });

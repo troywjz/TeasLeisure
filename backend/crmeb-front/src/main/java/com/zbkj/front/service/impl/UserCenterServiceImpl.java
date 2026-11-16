@@ -780,7 +780,7 @@ public class UserCenterServiceImpl extends ServiceImpl<UserDao, User> implements
         List<UserBill> list = billPageInfo.getList();
 
         // 获取年-月
-        Map<String, List<UserBill>> map = CollUtil.newHashMap();
+        Map<String, List<UserBill>> map = new java.util.HashMap<>();
         list.forEach(i -> {
             String month = StrUtil.subPre(CrmebDateUtil.dateToStr(i.getCreateTime(), Constants.DATE_FORMAT), 7);
             if (map.containsKey(month)) {
@@ -1142,7 +1142,7 @@ public class UserCenterServiceImpl extends ServiceImpl<UserDao, User> implements
             model.setTotalAmount(total_amount);
             model.setProductCode("QUICK_MSECURITY_PAY");
 
-//            HashMap<String, String> map = CollUtil.newHashMap();
+//            HashMap<String, String> map = new java.util.HashMap<>();
 //            map.put("type", Constants.SERVICE_PAY_TYPE_RECHARGE);
 //            String jsonString = JSONObject.toJSONString(map);
 //            String encode;
@@ -1188,7 +1188,7 @@ public class UserCenterServiceImpl extends ServiceImpl<UserDao, User> implements
         model.setProductCode("QUICK_WAP_PAY");
         model.setQuitUrl(systemConfigService.getValueByKey(AlipayConfig.recharge_quit_url));
 
-//        HashMap<String, String> map = CollUtil.newHashMap();
+//        HashMap<String, String> map = new java.util.HashMap<>();
 //        map.put("type", Constants.SERVICE_PAY_TYPE_RECHARGE);
 //        String jsonString = JSONObject.toJSONString(map);
 //        String encode;
