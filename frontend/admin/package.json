@@ -95,6 +95,15 @@
     "node": ">=18",
     "npm": ">= 8.0.0"
   },
+  "overrides": {
+    "braces": "3.0.3",
+    "decode-uri-component": "0.5.1",
+    "micromatch": "4.0.8",
+    "svg-baker": {
+      "micromatch": "4.0.8",
+      "postcss": "8.5.23"
+    }
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
