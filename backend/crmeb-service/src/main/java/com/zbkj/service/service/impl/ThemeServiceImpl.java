@@ -89,6 +89,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -2113,23 +2114,25 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeDao, Theme> implements Th
             path = importUrl.trim();
         }
 
-        File file = new File(path);
-        if (!remoteUrl && file.isAbsolute()) {
-            return file;
-        }
-
         path = path.replace("\\", "/");
         while (path.startsWith("/")) {
             path = path.substring(1);
         }
-        File rootPathFile = new File(normalizeRootPath(crmebConfig.getImagePath()), path);
-        if (rootPathFile.exists()) {
-            return rootPathFile;
+        Path imageRoot = Paths.get(normalizeRootPath(crmebConfig.getImagePath())).toAbsolutePath().normalize();
+        Path uploadRoot = imageRoot.resolve(UploadConstants.UPLOAD_FILE_KEYWORD).normalize();
+        Path requestedPath = Paths.get(path);
+        Path targetPath;
+        if (requestedPath.isAbsolute()) {
+            targetPath = requestedPath.toAbsolutePath().normalize();
+        } else if (path.startsWith(UploadConstants.UPLOAD_FILE_KEYWORD + "/")) {
+            targetPath = imageRoot.resolve(requestedPath).normalize();
+        } else {
+            targetPath = uploadRoot.resolve(requestedPath).normalize();
         }
-        if (!path.startsWith(UploadConstants.UPLOAD_FILE_KEYWORD + "/")) {
-            return new File(normalizeRootPath(crmebConfig.getImagePath()), UploadConstants.UPLOAD_FILE_KEYWORD + "/" + path);
+        if (!targetPath.startsWith(uploadRoot)) {
+            throw new CrmebException("主题ZIP文件路径不安全");
         }
-        return rootPathFile;
+        return targetPath.toFile();
     }
 
     /**
