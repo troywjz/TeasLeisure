@@ -26,6 +26,14 @@ public final class StallBusinessHours {
 
     /** Unknown/malformed records return null. */
     public static Boolean currentOpen(StallDailyStatus today, StallDailyStatus yesterday, LocalTime now) {
+        // An overnight window belongs to the date it started on and remains active
+        // after midnight, even when a status for the new date has already been set.
+        if (yesterday != null && Boolean.TRUE.equals(yesterday.getIsOpen())) {
+            TimeWindow previous = parse(yesterday.getHours());
+            if (previous != null && previous.isOvernight() && now.isBefore(previous.getEnd())) {
+                return Boolean.TRUE;
+            }
+        }
         if (today != null) {
             if (!Boolean.TRUE.equals(today.getIsOpen())) return Boolean.FALSE;
             TimeWindow window = parse(today.getHours());
@@ -33,10 +41,7 @@ public final class StallBusinessHours {
             if (window.isOvernight()) return !now.isBefore(window.getStart());
             return !now.isBefore(window.getStart()) && now.isBefore(window.getEnd());
         }
-        if (yesterday == null || !Boolean.TRUE.equals(yesterday.getIsOpen())) return null;
-        TimeWindow previous = parse(yesterday.getHours());
-        if (previous == null || !previous.isOvernight()) return null;
-        return now.isBefore(previous.getEnd()) ? Boolean.TRUE : null;
+        return null;
     }
 
     public static final class TimeWindow {
