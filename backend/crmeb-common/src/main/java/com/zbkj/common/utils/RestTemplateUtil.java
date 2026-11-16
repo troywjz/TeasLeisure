@@ -1,6 +1,7 @@
 package com.zbkj.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,6 +16,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+import com.zbkj.common.exception.CrmebException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
@@ -422,7 +429,51 @@ public class RestTemplateUtil {
 
 
     public byte[] getBuffer(String url) {
-        return restTemplate.getForEntity(url, byte[].class).getBody();
+        HttpURLConnection connection = null;
+        try {
+            URI currentUri = PublicHttpUrl.validate(url);
+            for (int redirectCount = 0; redirectCount <= 3; redirectCount++) {
+                connection = (HttpURLConnection) currentUri.toURL().openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(20000);
+                connection.setRequestProperty("Accept", "image/*");
+                int responseCode = connection.getResponseCode();
+                if (responseCode >= HttpURLConnection.HTTP_MOVED_PERM && responseCode < 400) {
+                    String location = connection.getHeaderField("Location");
+                    connection.disconnect();
+                    connection = null;
+                    if (StrUtil.isBlank(location) || redirectCount == 3) {
+                        throw new IOException("Invalid remote image redirect");
+                    }
+                    currentUri = PublicHttpUrl.validate(currentUri.resolve(location));
+                    continue;
+                }
+                if (responseCode < HttpURLConnection.HTTP_OK || responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
+                    throw new IOException("Remote image request failed");
+                }
+                if (connection.getContentLengthLong() > 10L * 1024 * 1024) {
+                    throw new IOException("Remote image is too large");
+                }
+                try (InputStream inputStream = new BufferedInputStream(connection.getInputStream());
+                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[8192];
+                    int length;
+                    while ((length = inputStream.read(buffer)) > 0) {
+                        if (outputStream.size() + length > 10 * 1024 * 1024) {
+                            throw new IOException("Remote image is too large");
+                        }
+                        outputStream.write(buffer, 0, length);
+                    }
+                    return outputStream.toByteArray();
+                }
+            }
+            throw new IOException("Too many remote image redirects");
+        } catch (IOException e) {
+            throw new CrmebException("远程图片获取失败");
+        } finally {
+            if (connection != null) connection.disconnect();
+        }
     }
 
     /**
