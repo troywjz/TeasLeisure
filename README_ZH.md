@@ -1,49 +1,133 @@
 # TeasLeisure（TL）
 
-TeasLeisure 是本地地摊发现与互动平台。项目复用 CRMEB Java 的认证、后台 RBAC、上传和运营管理能力，扩展地摊、社区、私信与内容审核领域。
+[English](README.md)
 
-## 产品范围
+TeasLeisure 是面向本地地摊商家和消费者的信息发现与社区互动平台。仓库基于 CRMEB Java，复用其账号认证、管理端权限和文件上传能力，并扩展摊位、社区、私信和内容审核模块。
 
-- 按城市、区域、分类、距离、今日出摊和当前营业状态浏览摊位。
-- 个人用户可提交摊位线索；经营者可申请认领，审核通过后管理摊位。
-- 摊主为已认领摊位发布动态。个人用户可浏览动态、评论/回复、点赞、收藏和举报。
-- 私信支持屏蔽、举报、频控、未读提示和已读游标；运营端统一审核投稿、认领、修订、动态、评论和举报。
-- 动态不自动过期，也不提供续期；作者删除或平台审核隐藏后下线。
-- 首版暂缓在线交易、支付、配送、拼团采购和分销。
+## 功能概览
 
-详细业务边界见 [产品概览](docs/PRODUCT_OVERVIEW.md)，本地配置见 [开发说明](docs/LOCAL_DEVELOPMENT.md)。
+- 按城市、区域、分类、距离和营业状态发现摊位。
+- 个人用户提交摊位线索；经营者申请认领，通过审核后管理摊位。
+- 摊主发布摊位动态；用户评论、回复、点赞、收藏和举报。
+- 用户之间私信，支持屏蔽、举报、频控、未读数和已读游标。
+- 运营后台审核摊位投稿、认领、修订、动态、评论和举报。
+- 动态默认不自动过期，也不提供续期；作者删除或平台审核隐藏后下线。
+- 首版不包含在线交易、支付、配送、拼团和分销。
 
-## 技术架构
+业务范围见[产品概览](docs/PRODUCT_OVERVIEW.md)。
 
-- Java 17、Spring Boot 4.1.2、MyBatis-Plus、PageHelper。
-- MySQL 8.4、Redis/Valkey、对象存储。
-- uni-app Vue 3/Vite 支持 H5 和微信小程序；Vue 管理端支持平台审核。
-- 按 account、stall、community、conversation、moderation 组织业务边界。
+## 在线演示
 
-CRMEB Java 上游：<https://github.com/crmeb/crmeb_java>。根目录保留上游许可证和源码版权声明；电商订单、支付、库存和营销模块与 TL 业务分离。
+两个演示都使用本地模拟数据，不需要数据库、Redis 或微信授权。
 
-## 本地开发
+**H5 用户端**（Node.js 20+）：
 
-准备 Git for Windows、JDK 17、Maven 3.9+、Node.js 20+、MySQL 8.4 和 Redis/Valkey。复制 `.env.example` 为本地 `.env`，填写数据库账号密码、随机 JWT 密钥和可写图片目录；`.env` 不要提交。Java 不会自动读取根目录 `.env`，每个启动后端的 PowerShell 窗口先执行 `. .\scripts\load-env.ps1`。
+```powershell
+cd frontend/uni-app
+npm ci
+npm run dev:h5:demo
+```
 
-1. 导入 CRMEB 基线 SQL：`backend/sql/Crmeb_v3.1.sql`。
-2. 按 [迁移工具说明](backend/tools/tl-migrate/README.md)检查并应用数据库迁移。
-3. 在仓库根目录构建后端：
+打开终端显示的 Vite 地址，并访问 `/#/pages/tl/index`。演示包含摊位分类、示例动态、摊位详情和评论。
 
-   ```powershell
-   mvn -f backend/pom.xml -pl crmeb-admin,crmeb-front -am -DskipTests clean package
-   ```
+**Web 运营端**（Python 3）：
 
-4. 使用 `tl-local` profile 启动 front/admin；默认 API 端口分别为 `8081` 和 `8080`。
-5. 在 `frontend/uni-app` 执行 `npm ci`，使用 `npm run dev:h5:demo` 启动含模拟数据的 H5 演示，使用 `npm run dev:h5` 连接真实 API；使用 `npm run build:mp-weixin` 构建微信小程序。
-6. 在 `frontend/admin` 执行 `npm ci` 和 `npm run dev` 启动管理端。
+```powershell
+cd frontend/admin/public
+python -m http.server 5174 --bind 127.0.0.1
+```
 
-生产前端构建需设置 `VITE_TL_API_URL` 为 HTTPS API 根域名；`VITE_TL_H5_URL` 用于生成 H5 分享链接。
+打开 <http://127.0.0.1:5174/teasleisure-demo.html>。审核列表支持本地筛选、搜索、通过和退回操作。操作只保存在当前页面中。
 
-浏览器演示步骤见 [Demo 指南](docs/DEMO.md)，包含用户侧 H5 和平台审核 Web 页面，均带本地模拟数据。
+演示限制和截图入口见[Demo 指南](docs/DEMO.md)。登录、商家认领、发布、上传和私信等真实操作需要后端及账号服务。
 
-新电脑迁移步骤、端口及外部服务配置见 [本地开发说明](docs/LOCAL_DEVELOPMENT.md)。H5 和管理端都提交了 npm 锁文件，使用 `npm ci` 安装。
+## 技术栈
+
+- Java 17、Spring Boot 4.1.2、MyBatis-Plus、PageHelper
+- MySQL 8.4、Redis/Valkey
+- uni-app、Vue 3、Vite：H5 和微信小程序
+- Vue 管理端：平台运营和审核
+
+代码以 [CRMEB Java](https://github.com/crmeb/crmeb_java) 为基础。CRMEB 商城订单、支付、库存和营销模块与 TL 地摊业务分开维护。
+
+## 本地完整开发环境
+
+准备 Git for Windows、JDK 17、Maven 3.9+、Node.js 20+、MySQL 8.4 和 Redis/Valkey。复制根目录 `.env.example` 为本机 `.env`，填写数据库账号密码、随机 JWT 密钥和可写的图片目录；不要提交 `.env`。
+
+Java 不会自动读取仓库根目录的 `.env`。每个启动后端的 PowerShell 窗口都要先从仓库根目录执行：
+
+```powershell
+. .\scripts\load-env.ps1
+```
+
+### 初始化数据库
+
+1. 创建本地开发数据库和有建表权限的数据库账号。
+2. 导入 `backend/sql/Crmeb_v3.1.sql`。
+3. 按[迁移工具说明](backend/tools/tl-migrate/README.md)检查并应用 TL 数据库迁移。
+
+MySQL 默认端口 `3306`，Redis/Valkey 默认端口 `6379`。详细环境变量和换电脑步骤见[本地开发说明](docs/LOCAL_DEVELOPMENT.md)。
+
+### 构建并启动后端
+
+在仓库根目录构建：
+
+```powershell
+mvn -f backend/pom.xml -pl crmeb-admin,crmeb-front -am -DskipTests clean package
+```
+
+在两个独立的 PowerShell 窗口中分别加载 `.env` 并启动：
+
+```powershell
+. .\scripts\load-env.ps1
+java -jar backend/crmeb-front/target/Crmeb-front.jar --spring.profiles.active=tl-local
+```
+
+```powershell
+. .\scripts\load-env.ps1
+java -jar backend/crmeb-admin/target/Crmeb-admin.jar --spring.profiles.active=tl-local
+```
+
+前台 API 默认监听 `8081`，管理端 API 默认监听 `8080`。图片目录需要存在并允许后端写入。
+
+### 运行前端
+
+H5 真实 API 开发模式：
+
+```powershell
+cd frontend/uni-app
+npm ci
+npm run dev:h5
+```
+
+微信小程序构建：
+
+```powershell
+npm run build:mp-weixin
+```
+
+管理端 Web：
+
+```powershell
+cd frontend/admin
+npm ci
+npm run dev
+```
+
+H5 开发 API 地址可在 `frontend/uni-app/.env.development` 设置 `VITE_TL_API_URL`。生产构建需要 HTTPS API 根域名；`VITE_TL_H5_URL` 用于分享链接。
+
+## 需要自行配置的外部服务
+
+- 微信 AppID/Secret、小程序域名白名单和直播权限
+- 地图服务密钥、短信服务、对象存储凭据
+- 生产环境 HTTPS API 域名、CORS 和文件上传目录
+
+本地模拟演示不依赖这些凭据。正式开放对应功能时，再按实际使用情况配置。
+
+## CI 与安全状态
+
+GitHub Actions 会检查后端测试、H5/小程序构建、管理端构建和 CodeQL。更新依赖时请先确认兼容性，再合并 Dependabot PR。
 
 ## 许可证
 
-仓库统一采用 Apache License 2.0，见根目录 [LICENSE](LICENSE)。CRMEB 原有版权声明继续保留；第三方依赖、图片和主题资源保留各自的许可证声明。
+仓库采用 Apache License 2.0，见根目录 [LICENSE](LICENSE)。保留 CRMEB 版权声明；第三方依赖与资源保留其各自的许可证声明。

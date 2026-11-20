@@ -66,7 +66,7 @@ For the Vue admin UI:
 
 ```powershell
 cd frontend/admin
-npm install
+npm ci
 npm run dev
 ```
 

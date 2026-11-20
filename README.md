@@ -1,5 +1,7 @@
 # TeasLeisure (TL)
 
+[简体中文](README_ZH.md) | English
+
 TeasLeisure is a local street-stall discovery and community platform. It reuses CRMEB Java capabilities for authentication, admin RBAC, file uploads, and operations while adding TL domains for stalls, community, conversations, and moderation.
 
 ## MVP
